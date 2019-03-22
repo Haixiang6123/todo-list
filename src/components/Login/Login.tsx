@@ -4,7 +4,7 @@ import { Button, Input, Icon, message } from 'antd'
 import axios from '../../config/axios'
 import './Login.scss'
 interface IProps {
-
+  history: any
 }
 interface IState {
   account: string
@@ -20,16 +20,10 @@ class Login extends React.Component<IProps, IState> {
     }
   }
 
-  private onChangeAccount = (e) => {
-    this.setState({
-      account: e.target.value
-    })
-  }
-
-  private onChangePassword = (e) => {
-    this.setState({
-      password: e.target.value
-    })
+  private onChange = (key: string, value: string): void => {
+    const newState = {}
+    newState[key] = value
+    this.setState(newState)
   }
 
   private login = async () => {
@@ -40,6 +34,7 @@ class Login extends React.Component<IProps, IState> {
         password,
       })
       message.success(`Welcome, ${account}`);
+      this.props.history.push('/index')
     }
     catch (e) {
       message.error(e.toString());
@@ -55,10 +50,19 @@ class Login extends React.Component<IProps, IState> {
           prefix={<Icon type="user" style={{color: 'rgba(0, 0, 0, 0.25)'}}/>}
           placeholder="Account"
           value={account}
-          onChange={this.onChangeAccount}
+          onChange={e => this.onChange('account', e.target.value)}
         />
-        <Input.Password value={password} onChange={this.onChangePassword} placeholder="Password" />
-        <Button block={true} type="primary" onClick={this.login} htmlType="button">Login</Button>
+        <Input.Password
+          value={password}
+          onChange={e => this.onChange('password', e.target.value)}
+          placeholder="Password" />
+        <Button
+          block={true}
+          type="primary"
+          onClick={this.login}
+          htmlType="button">
+          Login
+        </Button>
         <p>If you don't have account, click here to <Link to="/register">login</Link></p>
       </div>
     )
