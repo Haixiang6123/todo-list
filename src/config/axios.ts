@@ -1,36 +1,37 @@
-import axios from 'axios'
+import axios from 'axios';
 
-const appId = 'Wr4Wrydm934PGcHdF2194Yxq'
-const appSecret = '6j2Z8ncnmn3R2SpqNfuvxw25'
+const appID = "q5HRLsW98Fem9zhjBkQnurVR"
+const appSecret = "Yg2AF3XwqcnoQ1LPnV8gD27n"
 
 const instance = axios.create({
   baseURL: 'https://gp-server.hunger-valley.com/',
   headers: {
-    't-app-id': appId,
+    't-app-id': appID,
     't-app-secret': appSecret
-  },
-  timeout: 1000,
-})
+  }
+});
 
 // Add a request interceptor
-instance.interceptors.request.use(config => {
+instance.interceptors.request.use(function (config) {
   const xToken = localStorage.getItem('x-token')
-  if (xToken) {
-    config.headers.Authorization = `Bearer ${xToken}`
+  if(xToken){
+    config.headers['Authorization'] = `Bearer ${xToken}`
   }
   return config;
-}, (error) => {
+}, function (error) {
   console.error(error)
   return Promise.reject(error);
 });
 
 // Add a response interceptor
-instance.interceptors.response.use((response) => {
-  if (response.headers['x-token']) {
-    localStorage.setItem('x-token', response.headers['x-token'])
+instance.interceptors.response.use(function (response) {
+  // Do something with response data
+  if(response.headers['x-token']){
+    localStorage.setItem('x-token',response.headers['x-token'])
   }
   return response;
-}, (error) => {
+}, function (error) {
+  // Do something with response error
   return Promise.reject(error);
 });
 

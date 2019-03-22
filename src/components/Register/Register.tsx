@@ -1,14 +1,15 @@
 import * as React from 'react'
 import { Button, Input, Icon } from 'antd'
+import axios from '../../config/axios'
 
 interface IProps {
 
-};
+}
 interface IState {
   account: string
   confirmPassword: string
   password: string
-};
+}
 
 class Register extends React.Component<IProps, IState> {
   constructor(props) {
@@ -26,12 +27,35 @@ class Register extends React.Component<IProps, IState> {
     })
   }
 
-  private register = () => {
-    console.log('register')
+  private onChangePassword = (e) => {
+    this.setState({
+      password: e.target.value
+    })
+  }
+
+  private onChangeConfirmPassword = (e) => {
+    this.setState({
+      confirmPassword: e.target.value
+    })
+  }
+
+  private register = async () => {
+    const { account, password, confirmPassword} = this.state
+    try {
+      await axios.post('sign_up/user', {
+        account,
+        password,
+        password_confirmation: confirmPassword
+      })
+      console.log('success');
+    }
+    catch (e) {
+      throw new Error(e)
+    }
   }
 
   public render() {
-    const { account } = this.state
+    const { account, password, confirmPassword } = this.state
     return (
       <div className="register">
         <Input
@@ -40,6 +64,8 @@ class Register extends React.Component<IProps, IState> {
           value={account}
           onChange={this.onChangeAccount}
         />
+        <Input.Password value={password} onChange={this.onChangePassword} placeholder="Password" />
+        <Input.Password value={confirmPassword} onChange={this.onChangeConfirmPassword} placeholder="Password" />
         <Button onClick={this.register} htmlType="button">Register</Button>
       </div>
     )
