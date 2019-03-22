@@ -1,11 +1,10 @@
 import * as React from 'react'
-import { Button } from 'antd'
 
-interface IRouter {
+interface IProps {
   history: any
 }
 
-class Component extends React.Component<IRouter> {
+class Component extends React.Component<IProps> {
   constructor(props) {
     super(props)
   }
@@ -13,13 +12,9 @@ class Component extends React.Component<IRouter> {
   public render() {
     return (
       <div className="Index">
-        <Button onClick={this.login} htmlType="button">Login</Button>
+        Index
       </div>
     )
-  }
-
-  private login = () => {
-    this.props.history.push('/login')
   }
 }
 

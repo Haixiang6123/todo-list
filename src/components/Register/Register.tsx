@@ -1,7 +1,8 @@
 import * as React from 'react'
-import { Button, Input, Icon } from 'antd'
+import { Link } from 'react-router-dom'
+import { Button, Input, Icon, message } from 'antd'
 import axios from '../../config/axios'
-
+import './Register.scss'
 interface IProps {
 
 }
@@ -47,17 +48,18 @@ class Register extends React.Component<IProps, IState> {
         password,
         password_confirmation: confirmPassword
       })
-      console.log('success');
+      message.success(`Register successfully, ${account}`);
     }
     catch (e) {
-      throw new Error(e)
+      message.error(e.toString());
     }
   }
 
   public render() {
     const { account, password, confirmPassword } = this.state
     return (
-      <div className="register">
+      <div className="register" id="register">
+        <h1>Todo Register</h1>
         <Input
           prefix={<Icon type="user" style={{color: 'rgba(0, 0, 0, 0.25)'}}/>}
           placeholder="Account"
@@ -66,7 +68,8 @@ class Register extends React.Component<IProps, IState> {
         />
         <Input.Password value={password} onChange={this.onChangePassword} placeholder="Password" />
         <Input.Password value={confirmPassword} onChange={this.onChangeConfirmPassword} placeholder="Password" />
-        <Button onClick={this.register} htmlType="button">Register</Button>
+        <Button block={true} type="primary" onClick={this.register} htmlType="button">Register</Button>
+        <p>If you have account, click here to <Link to="/login">login</Link></p>
       </div>
     )
   }
