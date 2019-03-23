@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { createBrowserHistory } from 'history'
-const history = createBrowserHistory()
+import history from './history'
 
 const appID = "q5HRLsW98Fem9zhjBkQnurVR"
 const appSecret = "Yg2AF3XwqcnoQ1LPnV8gD27n"
