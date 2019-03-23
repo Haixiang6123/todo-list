@@ -15,7 +15,6 @@ interface IState {
 class TodoItem extends React.Component<IProps, IState> {
   constructor(props) {
     super(props);
-    console.log(props)
   }
 
   private updateTodo = (params: any) => {
@@ -23,13 +22,15 @@ class TodoItem extends React.Component<IProps, IState> {
   }
 
   public render() {
+    const { description, completed } = this.props
     return (
       <div className="todo-item">
         <Checkbox
-          checked={this.props.completed}
+          checked={completed}
           onChange={e => this.updateTodo({completed: e.target.checked})}>
-          {this.props.description}
+          {description}
         </Checkbox>
+        <input type="text" value={description}/>
       </div>
     )
   }
