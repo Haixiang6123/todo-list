@@ -52,7 +52,7 @@ class TodoItem extends React.Component<IProps, IState> {
           onChange={e => this.setState({editText: e.target.value})}
           onKeyUp={e => this.onKeyUp(e)}/>
         <div className="todo-item-editing-actions">
-          <Icon type="enter"/>
+          <Icon style={{marginRight: 8}} theme="filled" type="lock"/>
           <Icon type="delete" theme="filled" onClick={() => this.updateTodo({deleted: true})}/>
         </div>
       </div>
