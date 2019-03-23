@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Checkbox, Icon, Input } from 'antd'
+import classnames from 'classnames'
 import './TodoItem.scss'
 
 interface IProps {
@@ -52,15 +53,20 @@ class TodoItem extends React.Component<IProps, IState> {
           onChange={e => this.setState({editText: e.target.value})}
           onKeyUp={e => this.onKeyUp(e)}/>
         <div className="todo-item-editing-actions">
-          <Icon style={{marginRight: 8}} theme="filled" type="lock"/>
+          <Icon style={{marginRight: 8}} theme="filled" type="lock" onClick={() => this.updateTodo({})}/>
           <Icon type="delete" theme="filled" onClick={() => this.updateTodo({deleted: true})}/>
         </div>
       </div>
     )
-    const Text = <span onDoubleClick={this.editTodo}>{description}</span>
+    const Text = <span className="text" onDoubleClick={this.editTodo}>{description}</span>
+    const todoItemClass = classnames({
+      'todo-item': true,
+      editing,
+      completed
+    })
 
     return (
-      <div className="todo-item">
+      <div className={todoItemClass}>
         <Checkbox
           checked={completed}
           onChange={e => this.updateTodo({completed: e.target.checked})}>

@@ -1,6 +1,21 @@
 .todo-item {
   display: flex;
   align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  &:hover {
+    background: #f9f9f9;
+  }
+  &.editing {
+    background: #fff3d2;
+  }
+  &.completed {
+    > .text {
+      flex-grow: 1;
+      text-decoration: line-through;
+      color: #a9a9a9;
+    }
+  }
   &-desc, &-editing {
     flex-grow: 1;
   }
