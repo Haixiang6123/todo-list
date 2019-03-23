@@ -47,6 +47,7 @@ class TodoInput extends React.Component<IProps, IState> {
       <div id="todo-input" className="todo-input">
         <Input
           placeholder="Add A New Todo"
+          size="large"
           suffix={suffix}
           value={description}
           onChange={this.onChange}

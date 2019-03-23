@@ -27,6 +27,18 @@ class Todos extends React.Component<IProps, IState> {
     }
   }
 
+  get unDeletedTodos() {
+    return this.state.todos.filter(todo => !todo.deleted)
+  }
+
+  get unCompletedTodos() {
+    return this.unDeletedTodos.filter(todo => !todo.completed)
+  }
+
+  get completedTodos() {
+    return this.unDeletedTodos.filter(todo => todo.completed)
+  }
+
   private addTodo = async (params: any) => {
     const { todos } = this.state
     try {
@@ -84,8 +96,15 @@ class Todos extends React.Component<IProps, IState> {
       <div className="todos" id="todos">
         <TodoInput addTodo={(params) => this.addTodo(params)}/>
         <div className="todos-list">
+          <p className="todos-list-header">Todo</p>
           {
-            this.state.todos.map(todo => {
+            this.unCompletedTodos.map(todo => {
+              return <TodoItem editTodo={this.editTodo} updateTodo={this.updateTodo} key={todo.id} {...todo}/>
+            })
+          }
+          <p className="todos-list-header">Completed Todo</p>
+          {
+            this.completedTodos.map(todo => {
               return <TodoItem editTodo={this.editTodo} updateTodo={this.updateTodo} key={todo.id} {...todo}/>
             })
           }
