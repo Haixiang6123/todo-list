@@ -6,7 +6,7 @@ interface IProps {
   completed: boolean
   deleted: boolean
   description: string
-  toggleTodo: (id: number, params: any) => void
+  updateTodo: (id: number, params: any) => void
 }
 interface IState {
 
@@ -18,8 +18,8 @@ class TodoItem extends React.Component<IProps, IState> {
     console.log(props)
   }
 
-  private toggleTodo = (params: any) => {
-    this.props.toggleTodo(this.props.id, params)
+  private updateTodo = (params: any) => {
+    this.props.updateTodo(this.props.id, params)
   }
 
   public render() {
@@ -27,7 +27,7 @@ class TodoItem extends React.Component<IProps, IState> {
       <div className="todo-item">
         <Checkbox
           checked={this.props.completed}
-          onChange={e => this.toggleTodo({completed: e.target.checked})}>
+          onChange={e => this.updateTodo({completed: e.target.checked})}>
           {this.props.description}
         </Checkbox>
       </div>

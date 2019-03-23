@@ -49,7 +49,7 @@ class Todos extends React.Component<IProps, IState> {
     }
   }
 
-  private toggleTodo = async (id: number, params: any) => {
+  private updateTodo = async (id: number, params: any) => {
     const { todos } = this.state
     try {
       const response = await axios.put(`todos/${id}`, params)
@@ -74,7 +74,7 @@ class Todos extends React.Component<IProps, IState> {
         <div className="todos-list">
           {
             this.state.todos.map(todo => {
-              return <TodoItem toggleTodo={this.toggleTodo} key={todo.id} {...todo}/>
+              return <TodoItem updateTodo={this.updateTodo} key={todo.id} {...todo}/>
             })
           }
         </div>
