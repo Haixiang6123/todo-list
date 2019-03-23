@@ -1,6 +1,9 @@
 import * as React from 'react'
 import axios from '../../config/axios'
-import { message, Button } from 'antd'
+import { message, Dropdown, Icon, Menu } from 'antd'
+import Todos from '../Todos/Todos'
+import history from '../../config/history'
+import './Index.scss'
 
 interface User {
   account: string
@@ -12,6 +15,19 @@ interface IProps {
 interface IState {
   user: User
 }
+
+
+const logout = () => {
+  localStorage.setItem('x-token', '')
+  history.push('/login')
+}
+
+const menu = (
+  <Menu>
+    <Menu.Item key="1"><Icon type="setting"/>Settings</Menu.Item>
+    <Menu.Item key="2" onClick={logout}><Icon type="logout"/>Logout</Menu.Item>
+  </Menu>
+)
 
 class Index extends React.Component<IProps, IState> {
   constructor(props) {
@@ -42,23 +58,22 @@ class Index extends React.Component<IProps, IState> {
     }
   }
 
-  private logout = () => {
-    localStorage.setItem('x-token', '')
-    this.props.history.push('/login')
-  }
-
   public render() {
     return (
-      <div className="Index">
-        <p>Welcome, {this.state.user && this.state.user.account}</p>
-        Home page
-        <Button
-          block={true}
-          type="danger"
-          onClick={this.logout}
-          htmlType="button">
-          Logout
-        </Button>
+      <div className="index" id="index">
+        <header>
+          <span className="logo">LOGO</span>
+          <Dropdown className="dropdown" overlay={menu}>
+            <span>
+              <span>{this.state.user && this.state.user.account}</span>
+              <Icon className="dropdown-icon" type="down"/>
+            </span>
+          </Dropdown>
+        </header>
+
+        <main>
+          <Todos/>
+        </main>
       </div>
     )
   }

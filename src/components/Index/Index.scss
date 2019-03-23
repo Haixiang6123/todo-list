@@ -1,0 +1,17 @@
+#index {
+  margin: 0 auto;
+  max-width: 1000px;
+  padding: 16px;
+  > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    .dropdown {
+      cursor: pointer;
+      &-icon {
+        margin-left: 8px;
+      }
+    }
+  }
+}
