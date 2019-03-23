@@ -2,6 +2,7 @@ import * as React from 'react'
 import TodoInput from '../TodoInput/TodoInput'
 import axios from '../../config/axios'
 import { message } from 'antd'
+import './Todo.scss'
 
 interface IProps {
 
