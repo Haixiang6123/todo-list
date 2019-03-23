@@ -47,7 +47,6 @@ class Index extends React.Component<IProps, IState> {
   private getUserInfo = async () => {
     try {
       const response = await axios.get('me')
-      console.log(response);
       this.setState({
         user: response.data
       })
