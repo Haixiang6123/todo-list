@@ -1,6 +1,6 @@
 import * as React from 'react'
 import axios from '../../config/axios'
-import { message } from 'antd'
+import { message, Button } from 'antd'
 
 interface User {
   account: string
@@ -42,11 +42,23 @@ class Index extends React.Component<IProps, IState> {
     }
   }
 
+  private logout = () => {
+    localStorage.setItem('x-token', '')
+    this.props.history.push('/login')
+  }
+
   public render() {
     return (
       <div className="Index">
         <p>Welcome, {this.state.user && this.state.user.account}</p>
         Home page
+        <Button
+          block={true}
+          type="danger"
+          onClick={this.logout}
+          htmlType="button">
+          Logout
+        </Button>
       </div>
     )
   }

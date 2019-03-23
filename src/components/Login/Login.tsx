@@ -34,7 +34,7 @@ class Login extends React.Component<IProps, IState> {
         password,
       })
       message.success('Login Successfully');
-      this.props.history.push('/index')
+      this.props.history.push('/')
     }
     catch (e) {
       message.error(e.toString());
@@ -63,7 +63,7 @@ class Login extends React.Component<IProps, IState> {
           htmlType="button">
           Login
         </Button>
-        <p>If you don't have account, click here to <Link to="/register">login</Link></p>
+        <p>If you don't have account, click here to <Link to="/register">register</Link></p>
       </div>
     )
   }
