@@ -10,6 +10,7 @@ interface Todo {
   description: string
   completed: boolean
   deleted: boolean
+  editing: boolean
 }
 interface IProps {
 
@@ -41,8 +42,9 @@ class Todos extends React.Component<IProps, IState> {
 
   private getTodos = async () => {
     try {
-      let response = await axios.get('todos')
-      this.setState({todos: response.data.resources})
+      const response = await axios.get('todos')
+      const todos = response.data.resources.map(todo => Object.assign({}, todo, {editing: false}))
+      this.setState({todos})
     }
     catch (e) {
       message.error(e.toString())
@@ -63,6 +65,16 @@ class Todos extends React.Component<IProps, IState> {
     }
   }
 
+  private editTodo = (id: number) => {
+    const { todos } = this.state
+
+    const newTodos = todos.map(todo => {
+      return Object.assign({}, todo, {editing: id === todo.id})
+    })
+
+    this.setState({ todos: newTodos })
+  }
+
   async componentDidMount(){
     this.getTodos()
   }
@@ -74,7 +86,7 @@ class Todos extends React.Component<IProps, IState> {
         <div className="todos-list">
           {
             this.state.todos.map(todo => {
-              return <TodoItem updateTodo={this.updateTodo} key={todo.id} {...todo}/>
+              return <TodoItem editTodo={this.editTodo} updateTodo={this.updateTodo} key={todo.id} {...todo}/>
             })
           }
         </div>
