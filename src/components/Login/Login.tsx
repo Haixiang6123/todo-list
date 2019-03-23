@@ -33,7 +33,7 @@ class Login extends React.Component<IProps, IState> {
         account,
         password,
       })
-      message.success(`Welcome, ${account}`);
+      message.success('Login Successfully');
       this.props.history.push('/index')
     }
     catch (e) {
