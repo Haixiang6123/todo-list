@@ -21,7 +21,6 @@ class TodoInput extends React.Component<IProps, IState> {
   private onKeyUp = async (e) => {
     if (e.keyCode === this.ENTER && this.state.description !== '') {
       this.addTodo()
-      this.emptyInput()
     }
   }
 
@@ -31,6 +30,8 @@ class TodoInput extends React.Component<IProps, IState> {
 
   private addTodo = () => {
     this.props.addTodo({ description: this.state.description })
+    // Clear Input
+    this.emptyInput()
   }
 
   private onChange = (e) => {
