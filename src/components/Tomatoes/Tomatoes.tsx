@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { initTomatoes, addTomato } from "../../store/tomatoes/action";
+import {initTomatoes, addTomato, updateTomato} from "../../store/tomatoes/action";
 import { message } from 'antd'
 import axios from '../../config/axios'
 import TomatoAction from './TomatoAction'
@@ -10,6 +10,7 @@ interface IProps {
   tomatoes: any[]
   initTomatoes: (payload: any) => any
   addTomato: (payload: any) => any
+  updateTomato: (payload: any) => any
 }
 
 interface IState {
@@ -54,7 +55,11 @@ class Tomatoes extends React.Component<IProps, IState> {
   public render() {
     return (
       <div className="tomatoes" id="tomatoes">
-        <TomatoAction unfinishedTomato={this.unfinishedTomato} startTomato={this.startTomato}/>
+        <TomatoAction
+          unfinishedTomato={this.unfinishedTomato}
+          startTomato={this.startTomato}
+          updateTomato={this.props.updateTomato}
+        />
       </div>
     )
   }
@@ -66,7 +71,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 const mapDispatchToProps = {
   initTomatoes,
-  addTomato
+  addTomato,
+  updateTomato
 }
 
 export default connect(

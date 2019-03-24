@@ -5,6 +5,7 @@ import axios from '../../config/axios'
 
 interface IProps {
   startTomato: (payload: any) => any
+  updateTomato: (payload: any) => any
   unfinishedTomato: any
 }
 interface IState {
@@ -32,7 +33,7 @@ class TomatoAction extends React.Component<IProps, IState> {
         description: this.state.description,
         ended_at: new Date()
       })
-      console.log(response);
+      this.props.updateTomato(response.data.resource)
       this.setState({ description: '' })
     }
     catch (e) {
@@ -71,7 +72,8 @@ class TomatoAction extends React.Component<IProps, IState> {
         )
       }
       else {
-        html = <Counter/>
+        const timer = duration - timeNow + startedAt
+        html = <Counter timer={timer}/>
       }
     }
     return (
