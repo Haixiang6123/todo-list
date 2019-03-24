@@ -1,18 +1,17 @@
 import * as React from 'react'
-import axios from '../../config/axios'
-import { Button, message } from 'antd'
+import { Button } from 'antd'
 
-class TomatoAction extends React.Component {
-  private startTomato = async() => {
-    try {
-      const response = await axios.post('tomatoes', {
-        duration: 25 * 60 * 1000
-      })
-      console.log(response);
-    }
-    catch (e) {
-      message.error(e.toString())
-    }
+interface IProps {
+  startTomato: (payload: any) => any
+  unfinishedTomato: any
+}
+interface IState {
+
+}
+
+class TomatoAction extends React.Component<IProps, IState> {
+  constructor(props) {
+    super(props);
   }
 
   public render() {
@@ -22,7 +21,7 @@ class TomatoAction extends React.Component {
           size="large"
           block={true}
           htmlType="button"
-          onClick={this.startTomato}
+          onClick={this.props.startTomato}
           type="primary">
           Start A Tomato
         </Button>
