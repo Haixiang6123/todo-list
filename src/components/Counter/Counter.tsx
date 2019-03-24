@@ -2,6 +2,7 @@ import * as React from 'react'
 
 interface IProps {
   timer: number
+  onFinish: () => void
 }
 
 interface IState {
@@ -19,14 +20,18 @@ class Counter extends React.Component<IProps, IState> {
 
   componentDidMount() {
     this.timerId = window.setInterval(() => {
-      console.log(this.state.counter);
       if (this.state.counter <= 0) {
+        this.props.onFinish()
         window.clearInterval(this.timerId)
       }
       this.setState({
         counter: this.state.counter - 1000
       })
     }, 1000)
+  }
+
+  componentWillUnmount() {
+    window.clearInterval(this.timerId)
   }
 
   public render() {

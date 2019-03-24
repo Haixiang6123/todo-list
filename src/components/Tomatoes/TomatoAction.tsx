@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Button, Input, message } from 'antd'
 import Counter from '../Counter/Counter'
+import CounterHook from './CounterHook'
 import axios from '../../config/axios'
 
 interface IProps {
@@ -41,6 +42,10 @@ class TomatoAction extends React.Component<IProps, IState> {
     }
   }
 
+  private onFinish = () => {
+    this.render()
+  }
+
   public render() {
     let html = <div/>
     if (!this.props.unfinishedTomato) {
@@ -73,7 +78,12 @@ class TomatoAction extends React.Component<IProps, IState> {
       }
       else {
         const timer = duration - timeNow + startedAt
-        html = <Counter timer={timer}/>
+        html = (
+          <div>
+            <Counter timer={timer} onFinish={this.onFinish}/>
+            <CounterHook timer={timer} onFinish={this.onFinish}/>
+          </div>
+        )
       }
     }
     return (
