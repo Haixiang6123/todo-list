@@ -8,6 +8,7 @@ import './Tomatoes.scss'
 
 interface IProps {
   tomatoes: any[]
+  initTomatoes: (payload: any) => any
   addTomato: (payload: any) => any
 }
 
@@ -21,16 +22,16 @@ class Tomatoes extends React.Component<IProps, IState> {
   }
 
   get unfinishedTomato() {
-    return this.props.tomatoes.find(tomato => !tomato.description && !tomato.ender_at)
+    return this.props.tomatoes.find(tomato => !tomato.description && !tomato.ended_at)
   }
 
   getTomatoes = async () => {
     try {
       const response = await axios.get('tomatoes')
-      console.log(response);
+      this.props.initTomatoes(response.data.resources)
     }
     catch (e) {
-
+      message.error(e.toString())
     }
   }
 
