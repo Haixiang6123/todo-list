@@ -1,4 +1,6 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
+import { addTodo } from "../../store/todos/action";
 import TodoInput from '../TodoInput/TodoInput'
 import TodoItem from '../TodoItem/TodoItem'
 import axios from '../../config/axios'
@@ -37,19 +39,6 @@ class Todos extends React.Component<IProps, IState> {
 
   get completedTodos() {
     return this.unDeletedTodos.filter(todo => todo.completed)
-  }
-
-  private addTodo = async (params: any) => {
-    const { todos } = this.state
-    try {
-      const response = await axios.post('todos', params)
-      this.setState({
-        todos: [response.data.resource, ...todos]
-      })
-    }
-    catch (e) {
-      message.error(e.toString())
-    }
   }
 
   private getTodos = async () => {
@@ -94,7 +83,7 @@ class Todos extends React.Component<IProps, IState> {
   public render() {
     return (
       <div className="todos" id="todos">
-        <TodoInput addTodo={(params) => this.addTodo(params)}/>
+        <TodoInput/>
         <div className="todos-list">
           <p className="todos-list-header">Todo</p>
           {
@@ -114,4 +103,15 @@ class Todos extends React.Component<IProps, IState> {
   }
 }
 
-export default Todos
+const mapStateToProps = (state, ownProps) => ({
+  todos: state.todos,
+  ...ownProps
+})
+const mapDispatchToProps = {
+  addTodo
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Todos)

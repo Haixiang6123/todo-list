@@ -1,8 +1,11 @@
 import * as React from 'react'
-import { Input, Icon } from 'antd'
+import { connect } from 'react-redux'
+import { addTodo } from "../../store/todos/action";
+import { Input, Icon, message } from 'antd'
+import axios from '../../config/axios'
 
 interface IProps {
-  addTodo: (HTMLEvent) => void
+  addTodo: (payload) => any
 }
 interface IState {
   description: string
@@ -14,13 +17,14 @@ class TodoInput extends React.Component<IProps, IState> {
     this.state = {
       description: ''
     }
+    console.log(this.props);
   }
 
   private ENTER = 13
 
   private onKeyUp = async (e) => {
     if (e.keyCode === this.ENTER && this.state.description !== '') {
-      this.addTodo()
+      await this.addTodo()
     }
   }
 
@@ -28,10 +32,18 @@ class TodoInput extends React.Component<IProps, IState> {
     this.setState({ description: '' })
   }
 
-  private addTodo = () => {
-    this.props.addTodo({ description: this.state.description })
-    // Clear Input
-    this.emptyInput()
+  private addTodo = async () => {
+    try {
+      const response = await axios.post('todos', {
+        description: this.state.description
+      })
+      this.props.addTodo(response.data.resource)
+      // Clear Input
+      this.emptyInput()
+    }
+    catch (e) {
+      message.error(e.toString())
+    }
   }
 
   private onChange = (e) => {
@@ -58,4 +70,15 @@ class TodoInput extends React.Component<IProps, IState> {
   }
 }
 
-export default TodoInput
+const mapStateToProps = (state, ownProps) => ({
+  todos: state.todos,
+  ...ownProps
+})
+const mapDispatchToProps = {
+  addTodo
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoInput)
