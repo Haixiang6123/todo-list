@@ -1,4 +1,6 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
+import { addTomato } from "../../store/tomatoes/action";
 import TomatoAction from './TomatoAction'
 import './Tomatoes.scss'
 
@@ -12,4 +14,15 @@ class Tomatoes extends React.Component {
   }
 }
 
-export default Tomatoes
+const mapStateToProps = (state, ownProps) => ({
+  tomatoes: state.tomatoes,
+  ...ownProps
+})
+const mapDispatchToProps = {
+  addTomato
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Tomatoes)
