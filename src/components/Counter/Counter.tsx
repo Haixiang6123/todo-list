@@ -19,6 +19,7 @@ class Counter extends React.Component<IProps, IState> {
 
   componentDidMount() {
     this.timerId = window.setInterval(() => {
+      console.log(this.state.counter);
       if (this.state.counter <= 0) {
         window.clearInterval(this.timerId)
       }
@@ -29,8 +30,8 @@ class Counter extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const min = Math.floor(this.props.timer / 1000 / 60)
-    const second = Math.floor(this.props.timer / 1000 % 60)
+    const min = Math.floor(this.state.counter / 1000 / 60)
+    const second = Math.floor(this.state.counter / 1000 % 60)
     const time = `${min}: ${second < 10 ? `0${second}`: second}`
     return (
       <div>
