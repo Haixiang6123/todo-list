@@ -17,7 +17,6 @@ class TodoInput extends React.Component<IProps, IState> {
     this.state = {
       description: ''
     }
-    console.log(this.props);
   }
 
   private ENTER = 13

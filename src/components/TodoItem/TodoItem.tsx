@@ -1,5 +1,8 @@
 import * as React from 'react'
-import { Checkbox, Icon, Input } from 'antd'
+import { connect } from 'react-redux'
+import { editTodo, updateTodo } from "../../store/todos/action";
+import axios from '../../config/axios'
+import { Checkbox, Icon, Input, message } from 'antd'
 import classnames from 'classnames'
 import './TodoItem.scss'
 
@@ -8,7 +11,7 @@ interface IProps {
   completed: boolean
   deleted: boolean
   description: string
-  updateTodo: (id: number, params: any) => void
+  updateTodo: (params: any) => void
   editTodo: (id: number) => void
   editing: boolean
 }
@@ -25,17 +28,23 @@ class TodoItem extends React.Component<IProps, IState> {
     }
   }
 
-  private updateTodo = (params: any) => {
-    this.props.updateTodo(this.props.id, params)
+  private updateTodo = async (params: any) => {
+    try {
+      const response = await axios.put(`todos/${this.props.id}`, params)
+      this.props.updateTodo(response.data.resource)
+    }
+    catch (e) {
+      message.error(e.toString())
+    }
   }
 
   private editTodo = () => {
     this.props.editTodo(this.props.id)
   }
 
-  private onKeyUp = (e) => {
+  private onKeyUp = async (e) => {
     if (e.keyCode === this.ENTER && this.state.editText !== '') {
-      this.updateTodo({description: this.state.editText})
+      await this.updateTodo({description: this.state.editText})
     }
   }
 
@@ -53,7 +62,7 @@ class TodoItem extends React.Component<IProps, IState> {
           onChange={e => this.setState({editText: e.target.value})}
           onKeyUp={e => this.onKeyUp(e)}/>
         <div className="todo-item-editing-actions">
-          <Icon style={{marginRight: 8}} theme="filled" type="lock" onClick={() => this.updateTodo({})}/>
+          <Icon style={{marginRight: 8}} theme="filled" type="lock" onClick={() => this.updateTodo({description: editText})}/>
           <Icon type="delete" theme="filled" onClick={() => this.updateTodo({deleted: true})}/>
         </div>
       </div>
@@ -79,4 +88,15 @@ class TodoItem extends React.Component<IProps, IState> {
   }
 }
 
-export default TodoItem
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps
+})
+const mapDispatchToProps = {
+  editTodo,
+  updateTodo
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoItem)

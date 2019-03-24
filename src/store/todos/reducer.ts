@@ -11,10 +11,9 @@ const reducer = (state: any[]=[], action) => {
         return todo.id === action.payload.id ? action.payload : todo;
       })
     case EDIT_TODO:
-      state.forEach(todo => {
-        todo.editing = todo.id === action.payload;
+      return state.map(todo => {
+        return Object.assign({}, todo, {editing: todo.id === action.payload})
       })
-      return state
     default:
       return state
   }

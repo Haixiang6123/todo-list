@@ -43,20 +43,6 @@ class Todos extends React.Component<IProps, null> {
     }
   }
 
-  private updateTodo = async (id: number, params: any) => {
-    try {
-      const response = await axios.put(`todos/${id}`, params)
-      this.props.updateTodo(response.data.resource)
-    }
-    catch (e) {
-      message.error(e.toString())
-    }
-  }
-
-  private editTodo = (id: number) => {
-    this.props.editTodo(id)
-  }
-
   async componentDidMount(){
     await this.getTodos()
   }
@@ -69,13 +55,13 @@ class Todos extends React.Component<IProps, null> {
           <p className="todos-list-header">Todo</p>
           {
             this.unCompletedTodos.map(todo => {
-              return <TodoItem editTodo={this.editTodo} updateTodo={this.updateTodo} key={todo.id} {...todo}/>
+              return <TodoItem key={todo.id} {...todo}/>
             })
           }
           <p className="todos-list-header">Completed Todo</p>
           {
             this.completedTodos.map(todo => {
-              return <TodoItem editTodo={this.editTodo} updateTodo={this.updateTodo} key={todo.id} {...todo}/>
+              return <TodoItem key={todo.id} {...todo}/>
             })
           }
         </div>
