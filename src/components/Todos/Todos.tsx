@@ -1,36 +1,27 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { addTodo } from "../../store/todos/action";
+import { initTodos, addTodo, updateTodo, editTodo } from "../../store/todos/action";
 import TodoInput from '../TodoInput/TodoInput'
 import TodoItem from '../TodoItem/TodoItem'
 import axios from '../../config/axios'
 import { message } from 'antd'
 import './Todo.scss'
 
-interface Todo {
-  id: number
-  description: string
-  completed: boolean
-  deleted: boolean
-  editing: boolean
-}
 interface IProps {
-
+  todos: any[]
+  initTodos: (payload: any) => any
+  addTodo: (payload: any) => any
+  updateTodo: (payload: any) => any
+  editTodo: (payload: any) => any
 }
-interface IState {
-  todos: Todo[]
-}
 
-class Todos extends React.Component<IProps, IState> {
+class Todos extends React.Component<IProps, null> {
   constructor(props) {
     super(props)
-    this.state = {
-      todos: []
-    }
   }
 
   get unDeletedTodos() {
-    return this.state.todos.filter(todo => !todo.deleted)
+    return this.props.todos.filter(todo => !todo.deleted)
   }
 
   get unCompletedTodos() {
@@ -45,7 +36,7 @@ class Todos extends React.Component<IProps, IState> {
     try {
       const response = await axios.get('todos')
       const todos = response.data.resources.map(todo => Object.assign({}, todo, {editing: false}))
-      this.setState({todos})
+      this.props.initTodos(todos)
     }
     catch (e) {
       message.error(e.toString())
@@ -53,13 +44,9 @@ class Todos extends React.Component<IProps, IState> {
   }
 
   private updateTodo = async (id: number, params: any) => {
-    const { todos } = this.state
     try {
       const response = await axios.put(`todos/${id}`, params)
-      const newTodos = todos.map(todo => {
-        return id === todo.id ? response.data.resource : todo;
-      })
-      this.setState({ todos: newTodos })
+      this.props.updateTodo(response.data.resource)
     }
     catch (e) {
       message.error(e.toString())
@@ -67,17 +54,11 @@ class Todos extends React.Component<IProps, IState> {
   }
 
   private editTodo = (id: number) => {
-    const { todos } = this.state
-
-    const newTodos = todos.map(todo => {
-      return Object.assign({}, todo, {editing: id === todo.id})
-    })
-
-    this.setState({ todos: newTodos })
+    this.props.editTodo(id)
   }
 
   async componentDidMount(){
-    this.getTodos()
+    await this.getTodos()
   }
 
   public render() {
@@ -108,7 +89,10 @@ const mapStateToProps = (state, ownProps) => ({
   ...ownProps
 })
 const mapDispatchToProps = {
-  addTodo
+  initTodos,
+  addTodo,
+  updateTodo,
+  editTodo
 }
 
 export default connect(
