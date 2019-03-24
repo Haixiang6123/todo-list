@@ -2,6 +2,7 @@ import * as React from 'react'
 import axios from '../../config/axios'
 import { message, Dropdown, Icon, Menu } from 'antd'
 import Todos from '../Todos/Todos'
+import Tomatoes from '../Tomatoes/Tomatoes'
 import history from '../../config/history'
 import './Home.scss'
 
@@ -71,6 +72,7 @@ class Home extends React.Component<IProps, IState> {
         </header>
 
         <main>
+          <Tomatoes/>
           <Todos/>
         </main>
       </div>
