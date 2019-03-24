@@ -23,7 +23,7 @@ class Tomatoes extends React.Component<IProps, IState> {
   }
 
   get unfinishedTomato() {
-    return this.props.tomatoes.find(tomato => !tomato.description && !tomato.ended_at)
+    return this.props.tomatoes.find(tomato => !tomato.description && !tomato.ended_at && !tomato.aborted)
   }
 
   getTomatoes = async () => {

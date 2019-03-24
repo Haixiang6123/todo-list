@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Button, Input, message } from 'antd'
 import Counter from '../Counter/Counter'
-import CounterHook from './CounterHook'
 import axios from '../../config/axios'
 
 interface IProps {
@@ -24,16 +23,26 @@ class TomatoAction extends React.Component<IProps, IState> {
 
   private onKeyUp = async (e) => {
     if (e.keyCode === this.ENTER && this.state.description !== '') {
-      await this.addDescription()
-    }
-  }
-
-  private addDescription = async () => {
-    try {
-      const response = await axios.put(`tomatoes/${this.props.unfinishedTomato.id}`, {
+      await this.updateTomato({
         description: this.state.description,
         ended_at: new Date()
       })
+      this.setState({ description: '' })
+    }
+  }
+
+  private cancelTomato = async () => {
+    try {
+      await this.updateTomato({ aborted: true })
+    }
+    catch (e) {
+      message.error(e.toString())
+    }
+  }
+
+  private updateTomato = async (params: any) => {
+    try {
+      const response = await axios.put(`tomatoes/${this.props.unfinishedTomato.id}`, params)
       this.props.updateTomato(response.data.resource)
       this.setState({ description: '' })
     }
@@ -80,8 +89,12 @@ class TomatoAction extends React.Component<IProps, IState> {
         const timer = duration - timeNow + startedAt
         html = (
           <div>
-            <Counter timer={timer} onFinish={this.onFinish}/>
-            <CounterHook timer={timer} onFinish={this.onFinish}/>
+            <Counter
+              duration={duration}
+              timer={timer}
+              onFinish={this.onFinish}
+              onCancel={this.cancelTomato}
+            />
           </div>
         )
       }

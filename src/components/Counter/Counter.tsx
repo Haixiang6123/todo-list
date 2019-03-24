@@ -1,8 +1,12 @@
 import * as React from 'react'
+import { Icon } from 'antd'
+import './Counter.scss'
 
 interface IProps {
+  duration: number
   timer: number
   onFinish: () => void
+  onCancel: () => void
 }
 
 interface IState {
@@ -38,11 +42,12 @@ class Counter extends React.Component<IProps, IState> {
     const min = Math.floor(this.state.counter / 1000 / 60)
     const second = Math.floor(this.state.counter / 1000 % 60)
     const time = `${min}: ${second < 10 ? `0${second}`: second}`
+    const percent = 1 - this.state.counter / this.props.duration
     return (
-      <div>
-        <div>
-          {time}
-        </div>
+      <div className="counter" id="counter">
+        <Icon className="counter-close" type="close" onClick={this.props.onCancel}/>
+        {time}
+        <div className="counter-progress" style={{width: `${percent * 100}%`}}/>
       </div>
     )
   }
