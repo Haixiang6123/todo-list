@@ -3,7 +3,7 @@ import axios from '../../config/axios'
 import { message, Dropdown, Icon, Menu } from 'antd'
 import Todos from '../Todos/Todos'
 import history from '../../config/history'
-import './Index.scss'
+import './Home.scss'
 
 interface User {
   account: string
@@ -29,7 +29,7 @@ const menu = (
   </Menu>
 )
 
-class Index extends React.Component<IProps, IState> {
+class Home extends React.Component<IProps, IState> {
   constructor(props) {
     super(props)
     this.state = {
@@ -59,7 +59,7 @@ class Index extends React.Component<IProps, IState> {
 
   public render() {
     return (
-      <div className="index" id="index">
+      <div className="home" id="home">
         <header>
           <span className="logo">LOGO</span>
           <Dropdown className="dropdown" overlay={menu}>
@@ -78,4 +78,4 @@ class Index extends React.Component<IProps, IState> {
   }
 }
 
-export default Index
+export default Home
